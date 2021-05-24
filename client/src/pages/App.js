@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import { Container, Row, Col } from 'react-bootstrap';
 import ReactLive2d from 'react-live2d';
+import { Auth0Provider } from "@auth0/auth0-react";
 
 import CustomNavBar from '../components/CustomNavBar'
 import Dayquote from '../components/Dayquote'
@@ -10,6 +11,7 @@ import '../styles/App.css';
 import HomePage from './Home/HomePage'
 import LoginPage from './Login/LoginPage';
 import AlgorithmsPage from './Algorithms/AlgorithmsPage';
+import DashboardPage from './Dashboard/DashboardPage';
 
 class App extends Component {
   state = {
@@ -18,20 +20,20 @@ class App extends Component {
     responseToPost: '',
   };
   
-  componentDidMount() {
-    this.callApi()
-      .then(res => this.setState({ response: res.data[0] }))
-      .catch(err => console.log(err));
-  }
+  // componentDidMount() {
+  //   this.callApi()
+  //     .then(res => this.setState({ response: res.data[0] }))
+  //     .catch(err => console.log(err));
+  // }
   
-  callApi = async () => {
-    const response = await fetch('/routes/quote');
-    console.log(response)
-    const body = await response.json();
-    if (response.status !== 200) throw Error(body.message);
+  // callApi = async () => {
+  //   const response = await fetch('/routes/quote');
+  //   console.log(response)
+  //   const body = await response.json();
+  //   if (response.status !== 200) throw Error(body.message);
     
-    return body;
-  };
+  //   return body;
+  // };
   
   // handleSubmit = async e => {
   //   e.preventDefault();
@@ -49,7 +51,12 @@ class App extends Component {
   
 render() {
     return (
-      <Router>
+      <Auth0Provider
+        domain={process.env.REACT_APP_AUTH0_DOMAIN}
+        clientId={process.env.REACT_APP_AUTH0_CLIENT_ID}
+        redirectUri={window.location.origin}
+      >
+          <Router>
         <div className="App">
         <CustomNavBar />
         <Switch>
@@ -61,6 +68,9 @@ render() {
           </Route>
           <Route exact path='/algorithms'>
             <AlgorithmsPage />
+          </Route>
+          <Route exact path='/dashboard'>
+            <DashboardPage />
           </Route>
         </Switch>
         {/* api no longer running */}
@@ -80,6 +90,7 @@ render() {
         /> */}
       </div>
       </Router>
+      </Auth0Provider>
     );
   }
 }
