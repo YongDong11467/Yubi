@@ -4,7 +4,7 @@ import { Container, Row, Col } from 'react-bootstrap';
 import ReactLive2d from 'react-live2d';
 import { Auth0Provider } from "@auth0/auth0-react";
 
-import CustomNavBar from '../components/CustomNavBar'
+import CustomNavBar from '../components/CustomNavBar/CustomNavBar'
 import Dayquote from '../components/Dayquote'
 import '../styles/App.css';
 

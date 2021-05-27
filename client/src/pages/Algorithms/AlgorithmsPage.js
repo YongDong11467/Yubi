@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import AlgInfo from '../../components/AlgInfo'
+import AlgInfo from '../../components/AlgInfo/AlgInfo'
 import { Container, ListGroup } from 'react-bootstrap';
 
 import './algorithmspage.css'
