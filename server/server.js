@@ -7,23 +7,30 @@ const app = express(),
 
 require("dotenv").config();
 
-const diningRouter = require("./routes/diningRoute");
-const quoteRouter = require("./routes/quoteRoute");
-
 app.use(cors());
 
 mongoose.connect(process.env.MONGODB_URI, {useNewUrlParser: true, useUnifiedTopology: true});
-
-app.use('/login', (req, res) => {
-    res.send({
-        token: 'test123'
-    });
+const db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', function() {
+  console.log("Mongo connection established!!!")
 });
+
+const diningRouter = require("./routes/diningRoute");
+const quoteRouter = require("./routes/quoteRoute");
+const algorithmRouter = require("./routes/algorithmRoute");
+
+// app.use('/login', (req, res) => {
+//     res.send({
+//         token: 'test123'
+//     });
+// });
+
+app.use(bodyParser.json());
 
 app.use("/routes/dining", diningRouter);
 app.use("/routes/quote", quoteRouter);
-
-app.use(bodyParser.json());
+app.use("/routes/algorithm", algorithmRouter);
 
 app.get('/', (req,res) => {
     res.send('Default route');

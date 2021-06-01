@@ -3,6 +3,8 @@ import { Button, Modal, Form } from 'react-bootstrap';
 import { Link } from 'react-router-dom'
 import { useAuth0 } from "@auth0/auth0-react";
 
+import axios from 'axios'
+
 function AddAlgPopup() {
     const [show, setShow] = useState(false);
   
@@ -21,6 +23,17 @@ function AddAlgPopup() {
 
     function addClick() {
         console.log(algForm)
+        const algBody = {
+          name: algForm.algname,
+          description: algForm.description,
+          sourceCode: algForm.sourceCode
+        };
+    
+        axios.post("/routes/algorithm/add", algBody).then(res => {
+          console.log("Posted Algorithm")
+          handleClose();
+          alert("Successfully Posted Algorithm")
+        });
     }
   
     return (
